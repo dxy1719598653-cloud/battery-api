@@ -4,16 +4,22 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { deviceId, level, timestamp } = req.body;
+  try {
+    const body = req.body;
+    console.log('✅ 收到数据:', JSON.stringify(body, null, 2));
 
-  // 打印日志（调试用）
-  console.log('Battery data received:', { deviceId, level, timestamp });
+    // 验证必填字段
+    if (!body.deviceId || !body.level || !body.timestamp) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
 
-  // 这里你可以把数据存到数据库、文件、或只是记录
-  // 示例：返回成功响应
-  res.status(200).json({
-    success: true,
-    message: "Battery data saved",
-    received: { deviceId, level, timestamp }
-  });
+    res.status(200).json({
+      success: true,
+      message: "Battery data saved",
+      received: body
+    });
+  } catch (error) {
+    console.error('❌ 处理请求出错:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 }

@@ -1,0 +1,9 @@
+{
+  "name": "battery-api",
+  "version": "1.0.0",
+  "description": "Battery monitoring API",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {}
+}
